@@ -1,33 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [posts, setPosts] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const formData = new FormData();
+      formData.append("actionName", "MessagesLoad");
+      formData.append("messageId", "0");
+
+      const { Messages } = await fetch("http://a0830433.xsph.ru/", {
+        method: "POST",
+        body: formData,
+      }).then(res => res.json());
+
+      setPosts(Messages);
+    }
+    fetchData();
+    setIsLoading(false);
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {isLoading ? <h1>Загрузка</h1>
+        : <>
+          <ul>
+            {posts.map(post => (<li key={post.id}>{post.content}</li>))}
+          </ul>
+        </>}
     </>
   )
 }
