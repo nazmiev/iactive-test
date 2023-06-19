@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css'
+import PostBlock from './components/PostBlock';
 
 function App() {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -26,9 +27,7 @@ function App() {
     <>
       {isLoading ? <h1>Загрузка</h1>
         : <>
-          <ul>
-            {posts.map(post => (<li key={post.id}>{post.content}</li>))}
-          </ul>
+            {posts.map(post => (<PostBlock key={post.id} {...post}/>))}
         </>}
     </>
   )

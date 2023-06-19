@@ -1,0 +1,10 @@
+.root {
+    background-color: #eee;
+}
+
+.attachments {
+    background-color: #ddd;
+    video, img {
+        max-height: 40vh;
+    }
+}
