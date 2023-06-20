@@ -5,7 +5,7 @@ const PostBlock = ({ id, content, author, attachments, channel, date, region, se
     return (
         <div className={styles.root}>
             <p>id: {id}</p>
-            <p>content: {content}</p>
+            {/* <p>content: {content}</p>
             <p>author: {author}</p>
             {attachments.length && (
                 <div className={styles.attachments}>
@@ -24,7 +24,7 @@ const PostBlock = ({ id, content, author, attachments, channel, date, region, se
             <p>channel: {channel}</p>
             <p>date: {date}</p>
             <p>region: {region}</p>
-            <p>senderNumber: {senderNumber}</p>
+            <p>senderNumber: {senderNumber}</p> */}
         </div>
     )
 }

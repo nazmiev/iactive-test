@@ -1,33 +1,28 @@
 import React from 'react'
 import './App.css'
 import PostBlock from './components/PostBlock';
+import { useDispatch } from "react-redux";
+import { selectPostsData } from './redux/posts/selectors';
+import { fetchPosts } from './redux/posts/asyncActions';
+import { useSelector } from 'react-redux';
 
 function App() {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [posts, setPosts] = React.useState([]);
+  const dispatch = useDispatch();
+  const { items, status } = useSelector(selectPostsData);
+  console.log( items[items.length] );
 
   React.useEffect(() => {
-    const fetchData = async () => {
-      const formData = new FormData();
-      formData.append("actionName", "MessagesLoad");
-      formData.append("messageId", "0");
-
-      const { Messages } = await fetch("http://a0830433.xsph.ru/", {
-        method: "POST",
-        body: formData,
-      }).then(res => res.json());
-
-      setPosts(Messages);
-    }
-    fetchData();
-    setIsLoading(false);
+    const timer = setInterval(() => {
+      dispatch(fetchPosts());
+    }, 5000);
+    return () => clearInterval(timer);
   }, []);
 
   return (
     <>
-      {isLoading ? <h1>Загрузка</h1>
+      {status == 'loading' ? <h1>Загрузка</h1>
         : <>
-            {posts.map(post => (<PostBlock key={post.id} {...post}/>))}
+            {items.map(post => (<PostBlock key={post.id} {...post}/>))}
         </>}
     </>
   )
